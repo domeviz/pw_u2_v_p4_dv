@@ -1,13 +1,14 @@
 <template>
-  <h1>Caracola Mágica</h1>
+  <h1>Adivina la Respuesta</h1>
   <img :src="rutaImagen" alt="No se puede presentar" />
   <div class="bg-dark"></div>
   <div class="contenedor">
-    <input v-model="pregunta" type="text" placeholder="Hazme una pregunta" />
-    <p>Recuerda terminar con un ? la pregunta</p>
-    <div>
+    <button @click="iniciarJuego" v-if="!juegoIniciado">Iniciar Juego</button>
+    <div v-if="juegoIniciado">
       <h2>{{ pregunta }}</h2>
-      <h1>{{ respuesta }}</h1>
+      <button @click="responder('yes')">Si</button>
+      <button @click="responder('no')">No</button>
+      <div class="puntaje">Puntaje: {{ puntaje }}</div>
     </div>
   </div>
 </template>
@@ -20,27 +21,43 @@ export default {
       respuesta: "",
       rutaImagen:
         "https://play-lh.googleusercontent.com/0mgvhYfhG4Qm7UsE8uW4P2SUBw-ujHOTAgcP8DpXUafktzlUza2MRzLDK02AUK4cYZxT",
+      juegoIniciado: false,
+      puntaje: 0,
     };
   },
   watch: {
-    pregunta(value, oldValue) {
-      console.log(value);
-      console.log(oldValue);
-      if (value.includes("?")) {
-        console.log("Consumir el API");
-        this.consumirAPI();
+    juegoIniciado(valor) {
+      if (valor) {
+        this.obtenerPregunta();
       }
     },
   },
   methods: {
-    async consumirAPI() {
+    async iniciarJuego() {
+      this.juegoIniciado = true;
+      this.puntaje = 0;
+      await this.obtenerPregunta();
+    },
+    async obtenerPregunta(respuesta) {
+      const { question } = await fetch("https://yesno.wtf/api").then((r) =>
+        r.json()
+      );
+      this.pregunta = question;
+    },
+    async responder(respuesta) {
+      this.respuesta = respuesta;
       const { answer, image } = await fetch("https://yesno.wtf/api").then((r) =>
         r.json()
       );
-      console.log(answer);
-      console.log(image);
-      this.respuesta = answer;
       this.rutaImagen = image;
+      if (answer === this.respuesta) {
+        alert("Respuesta correcta");
+        this.puntaje++;
+      } else {
+        alert("Respuesta incorrecta");
+      }
+      this.respuesta = "";
+      this.obtenerPregunta();
     },
   },
 };
@@ -63,17 +80,22 @@ img,
 .contenedor {
   position: relative;
 }
-input {
-  width: 250px;
-  padding: 10px 15px;
+button{
+  padding: 10px 20px;
+  font-size: 16px;
   border-radius: 5px;
-  border: none;
+  margin: 10px;
+  background: pink;
 }
-p,h1,h2{
-    color: white;
+p,
+h1,
+h2 {
+  color: white;
 }
-p{
-    font-size: 20px;
-    margin-top: 0px;
+.puntaje{
+  color: white;
+  font-size: 20px;
+  margin-top: 20px;
+  text-align: center;;
 }
 </style>
