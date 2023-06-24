@@ -28,6 +28,7 @@ export default {
       console.log(oldValue);
       if (value.includes("?")) {
         console.log("Consumir el API");
+        this.respuesta="Espere porfavor"
         this.consumirAPI();
       }
     },
@@ -41,13 +42,14 @@ export default {
       console.log(image);
       this.respuesta = answer;
       this.rutaImagen = image;
+      this.pregunta=""
     },
   },
 };
 </script>
 
 <style>
-img,
+
 .bg-dark {
   height: 100vh;
   width: 100vw;
