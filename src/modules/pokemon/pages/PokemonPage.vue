@@ -1,6 +1,7 @@
 <template>
-  <h1>Opciones Pokemon</h1>
-  <PokemonImg />
+  <h1>Juego Pokemon</h1>
+  <PokemonImg :pokemonId="36" :muestraPokemon="true"/>
+  <h2>Opciones Pokemon</h2>
   <PokemonOps />
 </template>
 
