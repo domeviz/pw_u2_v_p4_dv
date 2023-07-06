@@ -5,7 +5,11 @@
     <li>2</li>
     <li>3</li>
     <li>4</li>-->
-      <li v-for="pokemon in opciones" :key="pokemon.id">
+      <li
+        v-for="pokemon in opciones"
+        :key="pokemon.id"
+        @click="$emit('seleccionado',pokemon.id)"
+      >
         {{ pokemon.nombre }}
       </li>
     </ul>
@@ -18,6 +22,11 @@ export default {
     opciones: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    pruebaDeEvento() {
+      console.log('prueba de evento');
     },
   },
 };
