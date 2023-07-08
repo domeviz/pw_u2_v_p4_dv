@@ -10,9 +10,9 @@
   <!--Navegacion optimizada con vue-->
   <div>
     <router-link to="/">Bienvenida</router-link>
-    <router-link to="/juego">Juego</router-link>
+    <router-link to="/juego">Instrucciones</router-link>
     <router-link to="/premios">Premios</router-link>
-    <router-link to="/pokemon">Pokemon</router-link>
+    <router-link to="/pokemon">Juego Pokemon</router-link>
   </div>
 </template>
 
